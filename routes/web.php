@@ -9,8 +9,23 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
+Route::pattern('id', '[0-9]+');
+Route::pattern('id', '[0-9]+');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'ProductController@index')->name('index');
+
+Route::get('/product', 'ProductController@index')->name('product.index');
+Route::get('/product/{id}', 'ProductController@show')->name('product.show');
+Route::get('/product/{product}', 'ProductController@show')->name('product.show');
+
+Route::get('/cart', 'CartController@index')->name('cart.index');
+Route::post('/cart/store', 'CartController@store')->name('cart.store');
+Route::delete('/cart/{id}', 'CartController@destroy')->name('cart.destroy');
+
+Route::post('/order/store', 'OrderController@store')->name('order.store');
+Route::get('/order', 'OrderController@index')->name('order.index');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
