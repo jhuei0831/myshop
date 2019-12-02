@@ -28,5 +28,8 @@
     "Id": "編號",
     "User id": "使用者編號",
     "Total": "總計",
-    "Closed": "已處理"
+    "Closed": "已處理",
+    "Order id": "訂單編號",
+    "Product id": "貨物編號",
+    "Amount": "數量"
 }

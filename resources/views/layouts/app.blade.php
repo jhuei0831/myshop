@@ -17,6 +17,7 @@
 <body>
     <div id="app">
         @include('layouts.nav')
+        @include('layouts.header')
         <main class="py-4">
             <div class="container">
                 @yield('content')
@@ -25,6 +26,7 @@
     </div>
     <script src="{{ mix('js/app.js') }}"></script>
     @yield('scriptsAfterJs')
+    @include('layouts.footer')
 </body>
 
 </html>

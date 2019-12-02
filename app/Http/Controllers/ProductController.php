@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomException;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -14,10 +15,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::paginate(15);
         return view('product.index', compact('products'));
     }
-
+    public function table()
+    {
+        $products = Product::paginate(10);
+        return view('product.table', compact('products'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -49,7 +54,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if (!$product->on_sale) {
-            throw new Exception('商品未上架');
+            throw new CustomException('商品未上架');
         }
 
         return view('product.show', compact('product'));

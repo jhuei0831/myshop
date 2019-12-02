@@ -3,7 +3,7 @@
 @php
 $total = 0;
 @endphp
-<h1>我的購物車</h1>
+<h1>我的購物車</h1><br>
 <form action="{{ route('order.store') }}" method="post" id="order-form">
     @csrf
     <table class="table table-striped">
@@ -73,7 +73,7 @@ $total = 0;
     <div class="form-group row">
         <label class="col-form-label col-sm-3 text-md-right">收貨地址</label>
         <div class="col-sm-7">
-            <input type="text" class="form-control" name="address" value="{{ $user->address }}">
+            <input type="text" class="form-control" name="address" value="{{ $user->address }}" required>
         </div>
         <div class="col-sm-2">
             <button type="submit" class="btn btn-primary">送出訂單</button>

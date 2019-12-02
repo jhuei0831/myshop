@@ -317,4 +317,7 @@ return [
             ],
         ],
     ],
+    // 使用`下拉菜单`形式
+    'grid_action_class' => \Encore\Admin\Grid\Displayers\DropdownActions::class,
+
 ];

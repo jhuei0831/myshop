@@ -7,7 +7,7 @@ amount: $('input[name=amount]').val(),
 .then(function () { // 請求成功時執行：
 swal('加入購物車成功', '', 'success')
 .then(function() {
-location.href = '{{ route('cart.index') }}';
+{{-- location.href = '{{ route('cart.index') }}'; --}}
 });
 }, function (error) { // 請求失敗時執行：
 
