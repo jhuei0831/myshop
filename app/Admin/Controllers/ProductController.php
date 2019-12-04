@@ -36,8 +36,12 @@ class ProductController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('title', __('Title'));
-        $grid->column('description', __('Description'));
-        $grid->column('image', __('Image'));
+        $grid->column('description', __('Description'))->display(function ($text) {
+            return str_limit($text, 80, '...');
+        });
+        $grid->column('image', __('Image'))->display(function ($text) {
+            return str_limit($text, 30, '...');
+        });
         $grid->column('on_sale', __('On sale'));
         $grid->column('price', __('Price'));
         $grid->column('created_at', __('Created at'));

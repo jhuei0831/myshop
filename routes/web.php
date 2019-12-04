@@ -27,6 +27,8 @@ Route::delete('/cart/{id}', 'CartController@destroy')->name('cart.destroy');
 Route::post('/order/store', 'OrderController@store')->name('order.store');
 Route::get('/order', 'OrderController@index')->name('order.index');
 
+Route::get('/pages/{name}', 'PageController@pages')->name('pages');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

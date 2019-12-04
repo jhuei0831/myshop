@@ -15,6 +15,7 @@ Route::group([
     $router->resource('products', ProductController::class);
     $router->resource('orders', OrderController::class);
     $router->resource('order-items', OrderitemController::class);
+    $router->resource('pages', PageController::class);
     $router->get('/orders/pdf/{id}', 'OrderController@pdf')->name('orders.pdf');
 
 });
