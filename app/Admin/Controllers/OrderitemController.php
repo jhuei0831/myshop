@@ -37,7 +37,8 @@ class OrderitemController extends AdminController
         $grid->column('order_id', __('Order id'));
         $grid->column('product_id', __('Product id'));
         $grid->column('amount', __('Amount'));
-        $grid->column('price', __('Price'));
+        $grid->column('discount', __('Discount'));
+        $grid->column('price', __('牌價'));
         $grid->filter(function ($filter) {
             // 去掉默認的id過濾器
             $filter->disableIdFilter();
@@ -82,6 +83,7 @@ class OrderitemController extends AdminController
         $form->number('order_id', __('Order id'));
         $form->number('product_id', __('Product id'));
         $form->number('amount', __('Amount'));
+        $form->text('discount', __('Discount'));
         $form->number('price', __('Price'));
 
         return $form;

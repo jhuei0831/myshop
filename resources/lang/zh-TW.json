@@ -31,5 +31,6 @@
     "Closed": "已處理",
     "Order id": "訂單編號",
     "Product id": "貨物編號",
-    "Amount": "數量"
+    "Amount": "數量",
+    "Discount": "折數"
 }

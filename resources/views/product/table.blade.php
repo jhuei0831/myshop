@@ -3,7 +3,17 @@
 <h1>商品一覽</h1>
 <div class="card">
     <div class="card-header" align="right">
-        <a href="{{ route('product.index') }}" style="color: black"><i class="fas fa-images"></i></a>
+        <form action="/product/table/search" method="POST" role="search">
+            {{ csrf_field() }}
+            <div class="input-group">
+                <input type="text" class="form-control" name="search" id="search" placeholder="Search products">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    <button type="button" class="btn btn-default"><a href="{{ route('product.index') }}" style="color: black"><i class="fas fa-images"></i></a></button>
+                    <button type="button" class="btn btn-default"><a href="{{ route('product.table') }}" style="color: black"><i class="fas fa-undo-alt"></i></a></button>
+                </span>
+            </div>
+        </form>
     </div>
     <br>
     <div class="card-body" align="center">

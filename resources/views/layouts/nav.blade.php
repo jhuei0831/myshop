@@ -12,7 +12,10 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/pages/123">首頁</a>
+                    <a class="nav-link" href="/pages/index">首頁</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pages/about">關於我們</a>
                 </li>
             </ul>
 

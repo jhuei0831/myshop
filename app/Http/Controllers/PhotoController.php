@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\CustomException;
-use App\Product;
-use DB;
+use App\Photo;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class PhotoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,30 +14,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(15);
-        return view('product.index', compact('products'));
+        $photos = Photo::where('is_open', 1)->get();
+
+        return view('layouts.header', compact('photos'));
+
     }
-    public function table()
-    {
-        $products = Product::paginate(10);
-        return view('product.table', compact('products'));
-    }
-    public function search(Request $request)
-    {
-        $search = $request->get('search');
-        $products = Product::where('title', $search)
-                    ->orWhere('price', 'like', '%' . $search . '%')->paginate(15);
-        // $products = DB::table('products')->where('title', 'like', '%' . $search . '%')->paginate(15);
-        return view('product.index', compact('products'));
-    }
-    public function search_table(Request $request)
-    {
-        $search = $request->get('search');
-        $products = Product::where('title', $search)
-                    ->orWhere('price', 'like', '%' . $search . '%')->paginate(15);
-        // $products = DB::table('products')->where('title', 'like', '%' . $search . '%')->paginate(15);
-        return view('product.table', compact('products'));
-    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -69,13 +49,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::find($id);
-        if (!$product->on_sale) {
-            throw new CustomException('商品未上架');
-        }
-
-        return view('product.show', compact('product'));
-
+        //
     }
 
     /**

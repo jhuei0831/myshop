@@ -8,7 +8,8 @@ $total = 0;
     @csrf
     <table class="table table-striped">
         <tr>
-            <th colspan=2>商品名稱</th>
+            <th></th>
+            <th>商品名稱</th>
             <th nowrap class="text-right">商品單價</th>
             <th nowrap class="text-center">購買數量</th>
             <th nowrap class="text-right">小計</th>

@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Cart;
 use App\Observers\CartObserver;
+use App\Photo;
 use Illuminate\Support\ServiceProvider;
+use View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Cart::observe(CartObserver::class);
-
+        $photos = Photo::where('is_open', 1)->orderBy('created_at', 'DESC')->get();
+        View::share('photos', $photos);
     }
 }

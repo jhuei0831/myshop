@@ -43,7 +43,7 @@ class OrderController extends AdminController
         // $grid->column('user_id', __('User id'));
         $grid->user()->name(__('Name'));
         $grid->column('address', __('Address'));
-        $grid->column('total', __('Total'));
+        $grid->column('total', __('Total'))->sortable();
         $grid->column('closed', __('Closed'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
@@ -52,10 +52,19 @@ class OrderController extends AdminController
         });
         $grid->column('訂單內容')->modal('訂單', function ($model) {
             $comments = $model->items()->take(10)->get()->map(function ($comment) {
-                return $comment->only(['product_id', 'amount', 'price']);
+                return $comment->only(['product_id', 'amount','discount', 'price']);
             });
-            return new Table([__('Product id'), __('Amount'), __('Price')], $comments->toArray());
+            return new Table([__('Product id'), __('Amount'),__('Discount'), __('Price')], $comments->toArray());
         });
+        $grid->filter(function ($filter) {
+            // 去掉默認的id過濾器
+            $filter->disableIdFilter();
+            // 在這里添加字段過濾器
+            $filter->like('user_id', __('Order id'));
+            // $filter->like('product_id', __('Product id'));
+            $filter->between('created_at')->datetime();
+        });
+
         // $grid->items('price')->toArray()->get('0')->get('price');
         return $grid;
     }
@@ -104,7 +113,7 @@ class OrderController extends AdminController
             ->join('products', 'order_items.product_id', '=', 'products.id')
             ->join('users', 'users.id', '=', 'orders.user_id')
             ->where('order_id', $id)
-            ->select('users.name', 'users.address', 'products.title', 'order_items.amount', 'order_items.price')
+            ->select('users.name', 'users.address', 'products.title', 'order_items.amount', 'order_items.price', 'order_items.discount')
             ->get();
         // $customer = DB::table('order_items')
         //     ->where('order_id', $customer_data[0]->order_id)
@@ -129,7 +138,7 @@ class OrderController extends AdminController
             <tr>
             <td style="border: 1px; text-align:center; padding:12px;">' . $customer->title . '</td>
             <td style="border: 1px; text-align:center; padding:12px;">' . $customer->amount . '</td>
-            <td style="border: 1px; text-align:center; padding:12px;">' . $customer->price . '</td>
+            <td style="border: 1px; text-align:center; padding:12px;">' . $customer->price*$customer->discount . '</td>
             <td style="border: 1px; text-align:center; padding:12px;"></td>
             </tr>
             ';
