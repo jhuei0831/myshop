@@ -42,7 +42,7 @@
 
         <!-- Copyright -->
         <div class="footer-copyright text-center py-3">© 2019 Copyright:
-            <a href="https://mdbootstrap.com/education/bootstrap/"> 都不怕我大槌瑞斯 還敢在我前面晃來晃去吃兵耶</a>
+            <a href="#"> 都不怕我大槌瑞斯 還敢在我前面晃來晃去吃兵耶</a>
         </div>
         <!-- Copyright -->
 

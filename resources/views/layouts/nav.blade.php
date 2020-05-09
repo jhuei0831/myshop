@@ -32,11 +32,21 @@
                 </li>
                 @endif
                 @else
+                @inject('Cart', 'App\Cart')               
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('cart.index') }}">我的購物車</a>
+                    <a class="nav-link" href="{{ route('cart.index') }}">我的購物車
+                        @if ($Cart->where('user_id','=',Auth::user()->id)->count() > 0)
+                            <span class="badge badge-danger">{{ $Cart->where('user_id','=',Auth::user()->id)->count() }}</span>
+                        @endif                     
+                    </a>
                 </li>
+                @inject('Order', 'App\Order')
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('order.index') }}">我的訂單</a>
+                    <a class="nav-link" href="{{ route('order.index') }}">我的訂單
+                        @if ($Order->where('user_id','=',Auth::user()->id)->count() > 0)
+                            <span class="badge badge-warning">{{ $Order->where('user_id','=',Auth::user()->id)->where('closed','>',0)->count() }}</span>
+                        @endif                      
+                    </a>
                 </li>
                 @section('my_menu')
                 <li class="nav-item">

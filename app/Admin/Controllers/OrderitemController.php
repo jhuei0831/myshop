@@ -36,6 +36,7 @@ class OrderitemController extends AdminController
         // $grid->column('id', __('Id'));
         $grid->column('order_id', __('Order id'));
         $grid->column('product_id', __('Product id'));
+        $grid->product()->title(__('Title'));
         $grid->column('amount', __('Amount'));
         $grid->column('discount', __('Discount'));
         $grid->column('price', __('牌價'));

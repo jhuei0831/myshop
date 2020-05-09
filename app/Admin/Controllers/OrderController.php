@@ -44,7 +44,7 @@ class OrderController extends AdminController
         $grid->user()->name(__('Name'));
         $grid->column('address', __('Address'));
         $grid->column('total', __('Total'))->sortable();
-        $grid->column('closed', __('Closed'));
+        $grid->column('closed', __('Closed'))->bool();
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
         $grid->column('報價單')->display(function () {

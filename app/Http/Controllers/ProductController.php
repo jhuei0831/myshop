@@ -16,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(15);
+        $products = Product::paginate(5);
         return view('product.index', compact('products'));
     }
     public function table()
@@ -28,7 +28,7 @@ class ProductController extends Controller
     {
         $search = $request->get('search');
         $products = Product::where('title', $search)
-                    ->orWhere('price', 'like', '%' . $search . '%')->paginate(15);
+                    ->orWhere('price', 'like', '%' . $search . '%')->paginate(5);
         // $products = DB::table('products')->where('title', 'like', '%' . $search . '%')->paginate(15);
         return view('product.index', compact('products'));
     }
