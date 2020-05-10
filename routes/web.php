@@ -34,8 +34,8 @@ Route::get('/product', 'ProductController@index')->name('product.index');
 Route::get('/product/table', 'ProductController@table')->name('product.table');
 Route::get('/product/{id}', 'ProductController@show')->name('product.show');
 Route::get('/product/{product}', 'ProductController@show')->name('product.show');
-Route::post('/product/search', 'ProductController@search');
-Route::post('/product/table/search', 'ProductController@search_table');
+Route::any('/product/image/search', 'ProductController@search');
+Route::any('/product/table/search', 'ProductController@search_table');
 
 
 Route::get('/cart', 'CartController@index')->name('cart.index');

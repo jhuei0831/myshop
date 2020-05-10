@@ -16,19 +16,19 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(5);
+        $products = Product::paginate(15);
         return view('product.index', compact('products'));
     }
     public function table()
     {
-        $products = Product::paginate(10);
+        $products = Product::paginate(15);
         return view('product.table', compact('products'));
     }
     public function search(Request $request)
     {
         $search = $request->get('search');
         $products = Product::where('title', $search)
-                    ->orWhere('price', 'like', '%' . $search . '%')->paginate(5);
+                    ->orWhere('price', 'like', '%' . $search . '%')->paginate(15)->appends($request->all());
         // $products = DB::table('products')->where('title', 'like', '%' . $search . '%')->paginate(15);
         return view('product.index', compact('products'));
     }
@@ -36,7 +36,7 @@ class ProductController extends Controller
     {
         $search = $request->get('search');
         $products = Product::where('title', $search)
-                    ->orWhere('price', 'like', '%' . $search . '%')->paginate(15);
+                    ->orWhere('price', 'like', '%' . $search . '%')->paginate(15)->appends($request->all());
         // $products = DB::table('products')->where('title', 'like', '%' . $search . '%')->paginate(15);
         return view('product.table', compact('products'));
     }
@@ -70,7 +70,7 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
-        if (!$product->on_sale) {
+        if (isset($product) && !$product->on_sale) {
             throw new CustomException('商品未上架');
         }
 

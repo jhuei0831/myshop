@@ -3,7 +3,7 @@
 <h1>商品一覽</h1>
 <div class="card">
     <div class="card-header" align="right">
-        <form action="/product/search" method="POST" role="search">
+        <form action="/product/image/search" method="POST" role="search">
             {{ csrf_field() }}
             <div class="input-group">
                 <input type="text" class="form-control" name="search" id="search" placeholder="Search products">
@@ -21,7 +21,7 @@
             @forelse($products as $product)
             <div class="card mb-4">
                 <div class="card-body text-center">
-                    <a href="product/{{ $product->id }}">
+                    <a href="{{ route('product.index') }}/{{ $product->id }}">
                         <img src="{{ $product->image_url }}" class="card-img-top" alt="{{ $product->title }}"
                             width="400">
                     </a>
