@@ -12,9 +12,7 @@
                         {{ session('status') }}
                     </div>
                     @endif
-                    @php
-                    echo $page->content;
-                    @endphp
+                    {!! $page->content !!}
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePhotoTable extends Migration
+class CreatePhotosTable extends Migration
 {
     /**
      * Run the migrations.

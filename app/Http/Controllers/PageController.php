@@ -28,6 +28,7 @@ class PageController extends Controller
         if ($pages[0]->is_open != 1) {
             abort(404, 'Please go back to our <a href="' . url('') . '">homepage</a>.');
         }
+        
         return view('pages', compact('pages'));
     }
 }

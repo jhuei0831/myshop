@@ -2,15 +2,17 @@
 
 namespace App\Admin\Controllers;
 
-use App\Order;
-use DB;
-use Encore\Admin\Controllers\AdminController;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
-use Encore\Admin\Widgets\Table;
 use PDF;
+use App\Order;
+use App\OrderItem;
+use Dcat\Admin\Form;
+use Dcat\Admin\Grid;
+use Dcat\Admin\Show;
+use Dcat\Admin\Admin;
+use Dcat\Admin\Widgets\Table;
+use Dcat\Admin\Layout\Content;
+use Illuminate\Support\Facades\DB;
+use Dcat\Admin\Http\Controllers\AdminController;
 
 class OrderController extends AdminController
 {
@@ -38,20 +40,19 @@ class OrderController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Order);
-
         $grid->column('id', __('Id'));
-        // $grid->column('user_id', __('User id'));
-        $grid->user()->name(__('Name'));
+        $grid->column('user_id', __('User id'));
         $grid->column('address', __('Address'));
         $grid->column('total', __('Total'))->sortable();
         $grid->column('closed', __('Closed'))->bool();
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
         $grid->column('報價單')->display(function () {
-            return "<a href='/admin/orders/pdf/$this->id' target='_blank'>Print</a>";
+            return "<a href='/admin/orders/pdf/{$this->getKey()}' target='_blank'>Print</a>";
         });
         $grid->column('訂單內容')->modal('訂單', function ($model) {
-            $comments = $model->items()->take(10)->get()->map(function ($comment) {
+            // dd($model);
+            $comments = OrderItem::where('order_id', $model->row->id)->get()->map(function ($comment) {
                 return $comment->only(['product_id', 'amount','discount', 'price']);
             });
             return new Table([__('Product id'), __('Amount'),__('Discount'), __('Price')], $comments->toArray());

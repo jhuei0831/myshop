@@ -32,7 +32,7 @@
 @section('scriptsAfterJs')
 <script>
     $(document).ready(function () {
-            @include('product.add2cart')
-        });
+        @include('product.add2cart')
+    });
 </script>
 @endsection

@@ -3,11 +3,11 @@
 namespace App\Admin\Controllers;
 
 use App\Page;
-use Encore\Admin\Controllers\AdminController;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
+use Dcat\Admin\Http\Controllers\AdminController;
+use Dcat\Admin\Form;
+use Dcat\Admin\Grid;
+use Dcat\Admin\Layout\Content;
+use Dcat\Admin\Show;
 
 class PageController extends AdminController
 {
@@ -77,12 +77,8 @@ class PageController extends AdminController
 
         $form->text('name', __('網頁名稱'))->rules('required');
         $form->text('title', __('標題'))->rules('required');
-        $form->summernote('content', __('內容'))->rules('required');
-        $states = [
-            'on' => ['value' => 1, 'text' => '是', 'color' => 'success'],
-            'off' => ['value' => 0, 'text' => '否', 'color' => 'danger'],
-        ];
-        $form->switch('is_open', __('是否開放'))->states($states)->default(1);
+        $form->editor('content', __('內容'))->rules('required');
+        $form->switch('is_open', __('是否開放'))->default(1);
 
         return $form;
     }

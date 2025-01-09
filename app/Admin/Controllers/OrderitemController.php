@@ -3,11 +3,11 @@
 namespace App\Admin\Controllers;
 
 use App\OrderItem;
-use Encore\Admin\Controllers\AdminController;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
+use Dcat\Admin\Http\Controllers\AdminController;
+use Dcat\Admin\Form;
+use Dcat\Admin\Grid;
+use Dcat\Admin\Layout\Content;
+use Dcat\Admin\Show;
 
 class OrderitemController extends AdminController
 {
@@ -17,6 +17,7 @@ class OrderitemController extends AdminController
      * @var string
      */
     protected $title = 'App\OrderItem';
+
     public function index(Content $content)
     {
         return $content
@@ -24,6 +25,7 @@ class OrderitemController extends AdminController
             ->description('管理所有訂單內容')
             ->body($this->grid());
     }
+
     /**
      * Make a grid builder.
      *
@@ -31,12 +33,15 @@ class OrderitemController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new OrderItem);
-
-        // $grid->column('id', __('Id'));
+        $grid = new Grid((new OrderItem)::with(['product']));
+        
         $grid->column('order_id', __('Order id'));
         $grid->column('product_id', __('Product id'));
-        $grid->product()->title(__('Title'));
+        // 商品名稱
+        $grid->product(__('Title'))->display(function ($product) {
+            return $product->title;
+        });
+
         $grid->column('amount', __('Amount'));
         $grid->column('discount', __('Discount'));
         $grid->column('price', __('牌價'));
@@ -48,6 +53,7 @@ class OrderitemController extends AdminController
             $filter->like('product_id', __('Product id'));
 
         });
+
         return $grid;
     }
 

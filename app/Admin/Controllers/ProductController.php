@@ -3,11 +3,12 @@
 namespace App\Admin\Controllers;
 
 use App\Product;
-use Encore\Admin\Controllers\AdminController;
-use Encore\Admin\Form;
-use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
+use Dcat\Admin\Form;
+use Dcat\Admin\Grid;
+use Dcat\Admin\Show;
+use Illuminate\Support\Str;
+use Dcat\Admin\Layout\Content;
+use Dcat\Admin\Http\Controllers\AdminController;
 
 class ProductController extends AdminController
 {
@@ -25,6 +26,7 @@ class ProductController extends AdminController
             ->description('管理所有賣場商品')
             ->body($this->grid());
     }
+    
     /**
      * Make a grid builder.
      *
@@ -37,10 +39,10 @@ class ProductController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('title', __('Title'));
         $grid->column('description', __('Description'))->display(function ($text) {
-            return str_limit($text, 80, '...');
+            return Str::limit($text, 80, '...');
         });
         $grid->column('image', __('Image'))->display(function ($text) {
-            return str_limit($text, 30, '...');
+            return Str::limit($text, 30, '...');
         });
         $grid->column('on_sale', __('On sale'));
         $grid->column('price', __('Price'));
@@ -88,13 +90,9 @@ class ProductController extends AdminController
         $form = new Form(new Product);
 
         $form->text('title', __('Title'))->rules('required');
-        $form->ckeditor('description', __('Description'))->rules('required');
+        $form->editor('description', __('Description'))->rules('required');
         $form->image('image', __('Image'))->rules('required');
-        $states = [
-            'on' => ['value' => 1, 'text' => '是', 'color' => 'success'],
-            'off' => ['value' => 0, 'text' => '否', 'color' => 'danger'],
-        ];
-        $form->switch('on_sale', __('On sale'))->states($states)->default(1);
+        $form->radio('on_sale', __('On sale'))->options(['是', '否'])->default(0);;
         $form->number('price', __('Price'))->default(0)->rules('required|integer|min:0');
 
         return $form;

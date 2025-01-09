@@ -16,7 +16,7 @@
     <div class="carousel-inner" role="listbox">
         @foreach( $photos as $photo )
         <div class="carousel-item {{ $loop->first ? 'active' : '' }}" align="center">
-            <img class="d-block img-fluid" src="{{url('storage')}}/{{ $photo->image }}" alt="{{ $photo->title }}">
+            <img class="d-block img-fluid" src="{{ Storage::disk('local')->url($photo->image) }}" alt="{{ $photo->title }}">
             <div class="carousel-caption d-none d-md-block">
                 {{-- <h3>{{ $photo->title }}</h3>
                 <p>{{ $photo->descriptoin }}</p> --}}

@@ -1,0 +1,16 @@
+{
+    "php.validate.executablePath": "C:/laragon/bin/php/php-7.4.11-nts-Win32-vc15-x64/php.exe",
+    "intelephense.environment.phpVersion": "8.2",
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "intelephense.files.exclude": [
+        "**/.git/**",
+        "**/.svn/**",
+        "**/.hg/**",
+        "**/CVS/**",
+        "**/.DS_Store/**",
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/resources/views/**"
+    ]
+}

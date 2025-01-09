@@ -12,7 +12,9 @@
  */
 use App\User;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Route;
 
 Route::pattern('id', '[0-9]+');
 Route::pattern('id', '[0-9]+');

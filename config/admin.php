@@ -4,97 +4,139 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Laravel-admin name
+    | dcat-admin name
     |--------------------------------------------------------------------------
     |
-    | 登錄頁面的大標題，顯示在登錄頁面
+    | This value is the name of dcat-admin, This setting is displayed on the
+    | login page.
     |
-     */
-    'name' => '我的商店-後台管理',
+    */
+    'name' => 'Dcat Admin',
 
     /*
     |--------------------------------------------------------------------------
-    | Laravel-admin logo
+    | dcat-admin logo
     |--------------------------------------------------------------------------
     |
-    | 管理頁面的logo設置，如果要設置為圖片，可以設置為img標籤
-    | <img src="http://logo-url" alt="Admin logo">'.
+    | The logo of all admin pages. You can also set it as an image by using a
+    | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
-     */
-    'logo' => '<b>我的商店</b> 後台管理',
+    */
+    'logo' => '<img src="/vendor/dcat-admin/images/logo.png" width="35"> &nbsp;Dcat Admin',
 
     /*
     |--------------------------------------------------------------------------
-    | Laravel-admin mini logo
+    | dcat-admin mini logo
     |--------------------------------------------------------------------------
     |
-    | 當左側邊欄收起時顯示的小logo，也可以設置為html標籤
+    | The logo of all admin pages when the sidebar menu is collapsed. You can
+    | also set it as an image by using a `img` tag, eg
+    | '<img src="http://logo-url" alt="Admin logo">'.
     |
-     */
-    'logo-mini' => '<b>後台</b>',
+    */
+    'logo-mini' => '<img src="/vendor/dcat-admin/images/logo.png">',
 
     /*
     |--------------------------------------------------------------------------
-    | Laravel-admin route settings
+    | dcat-admin favicon
     |--------------------------------------------------------------------------
     |
-    | 後台路由設定，應用在`app/Admin/routes.php`裡面
-    |
+    */
+    'favicon' => null,
+
+    /*
+     |--------------------------------------------------------------------------
+     | User default avatar
+     |--------------------------------------------------------------------------
+     |
+     | Set a default avatar for newly created users.
+     |
      */
+    'default_avatar' => '@admin/images/default-avatar.jpg',
+
+    /*
+    |--------------------------------------------------------------------------
+    | dcat-admin route settings
+    |--------------------------------------------------------------------------
+    |
+    | The routing configuration of the admin page, including the path prefix,
+    | the controller namespace, and the default middleware. If you want to
+    | access through the root path, just set the prefix to empty string.
+    |
+    */
     'route' => [
+        'domain' => env('ADMIN_ROUTE_DOMAIN'),
 
-        'prefix' => 'admin',
+        'prefix' => env('ADMIN_ROUTE_PREFIX', 'admin'),
 
         'namespace' => 'App\\Admin\\Controllers',
 
         'middleware' => ['web', 'admin'],
+
+        'enable_session_middleware' => false,
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Laravel-admin install directory
+    | dcat-admin install directory
     |--------------------------------------------------------------------------
     |
-    | 後台的安裝目錄，如果在運行`admin:install`之前修改它，那麼後台目錄將會是這個設定的目錄
+    | The installation directory of the controller and routing configuration
+    | files of the administration page. The default is `app/Admin`, which must
+    | be set before running `artisan admin::install` to take effect.
     |
-     */
+    */
     'directory' => app_path('Admin'),
 
     /*
     |--------------------------------------------------------------------------
-    | Laravel-admin html title
+    | dcat-admin html title
     |--------------------------------------------------------------------------
     |
-    | 所有頁面的<title>標籤內容
+    | Html title for all pages.
     |
-     */
-    'title' => '我的商店-管理後台',
+    */
+    'title' => 'Admin',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Assets hostname
+    |--------------------------------------------------------------------------
+    |
+   */
+    'assets_server' => env('ADMIN_ASSETS_SERVER'),
 
     /*
     |--------------------------------------------------------------------------
     | Access via `https`
     |--------------------------------------------------------------------------
     |
-    | 後台是否使用https
+    | If your page is going to be accessed via https, set it to `true`.
     |
-     */
+    */
     'https' => env('ADMIN_HTTPS', false),
 
     /*
     |--------------------------------------------------------------------------
-    | Laravel-admin auth setting
+    | dcat-admin auth setting
     |--------------------------------------------------------------------------
     |
-    | 後台用戶使用的用戶認證設定
+    | Authentication settings for all admin pages. Include an authentication
+    | guard and a user provider setting of authentication driver.
     |
-     */
+    | You can specify a controller for `login` `logout` and other auth routes.
+    |
+    */
     'auth' => [
+        'enable' => true,
 
         'controller' => App\Admin\Controllers\AuthController::class,
 
+        'guard' => 'admin',
+
         'guards' => [
             'admin' => [
-                'driver' => 'session',
+                'driver'   => 'session',
                 'provider' => 'admin',
             ],
         ],
@@ -102,50 +144,142 @@ return [
         'providers' => [
             'admin' => [
                 'driver' => 'eloquent',
-                'model' => Encore\Admin\Auth\Database\Administrator::class,
+                'model'  => Dcat\Admin\Models\Administrator::class,
+            ],
+        ],
+
+        // Add "remember me" to login form
+        'remember' => true,
+
+        // All method to path like: auth/users/*/edit
+        // or specific method to path like: get:auth/users.
+        'except' => [
+            'auth/login',
+            'auth/logout',
+        ],
+
+        'enable_session_middleware' => false,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | The global Grid setting
+    |--------------------------------------------------------------------------
+    */
+    'grid' => [
+
+        // The global Grid action display class.
+        'grid_action_class' => Dcat\Admin\Grid\Displayers\DropdownActions::class,
+
+        // The global Grid batch action display class.
+        'batch_action_class' => Dcat\Admin\Grid\Tools\BatchActions::class,
+
+        // The global Grid pagination display class.
+        'paginator_class' => Dcat\Admin\Grid\Tools\Paginator::class,
+
+        'actions' => [
+            'view' => Dcat\Admin\Grid\Actions\Show::class,
+            'edit' => Dcat\Admin\Grid\Actions\Edit::class,
+            'quick_edit' => Dcat\Admin\Grid\Actions\QuickEdit::class,
+            'delete' => Dcat\Admin\Grid\Actions\Delete::class,
+            'batch_delete' => Dcat\Admin\Grid\Tools\BatchDelete::class,
+        ],
+
+        // The global Grid column selector setting.
+        'column_selector' => [
+            'store' => Dcat\Admin\Grid\ColumnSelector\SessionStore::class,
+            'store_params' => [
+                'driver' => 'file',
             ],
         ],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Laravel-admin upload setting
+    | dcat-admin helpers setting.
+    |--------------------------------------------------------------------------
+    */
+    'helpers' => [
+        'enable' => true,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | dcat-admin permission setting
     |--------------------------------------------------------------------------
     |
-    | 在Form表單中的image和file類型的預設上傳磁碟和目錄設置，其中disk的設定會使用在
-    | config/filesystem.php裡面設定的一項disk
+    | Permission settings for all admin pages.
     |
-     */
-    'upload' => [
+    */
+    'permission' => [
+        // Whether enable permission.
+        'enable' => true,
 
-        // `config/filesystem.php`中設置的disk
-        'disk' => 'public',
-
-        // image和file類型表單元素的上傳目錄
-        'directory' => [
-            'image' => 'images',
-            'file' => 'files',
+        // All method to path like: auth/users/*/edit
+        // or specific method to path like: get:auth/users.
+        'except' => [
+            '/',
+            'auth/login',
+            'auth/logout',
+            'auth/setting',
         ],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Laravel-admin database settings
+    | dcat-admin menu setting
     |--------------------------------------------------------------------------
     |
-    | 安裝laravel-admin之後，預設會在資料庫中新建下面9張表，包括用戶、選單、角色、權限、
-    | 日誌和它們之間的關係表，下面的設定是標的名字和對應的模型
+    */
+    'menu' => [
+        'cache' => [
+            // enable cache or not
+            'enable' => false,
+            'store'  => 'file',
+        ],
+
+        // Whether enable menu bind to a permission.
+        'bind_permission' => true,
+
+        // Whether enable role bind to menu.
+        'role_bind_menu' => true,
+
+        // Whether enable permission bind to menu.
+        'permission_bind_menu' => true,
+
+        'default_icon' => 'feather icon-circle',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | dcat-admin upload setting
+    |--------------------------------------------------------------------------
     |
-    | 其中的`connection`設定為下面幾個模型所使用的資料庫連接，對應`config/database.php`
-    | 中的connections裡面設置的connection,
+    | File system configuration for form upload files and images, including
+    | disk and upload path.
     |
-    | 如果你想修改資料庫裡面這幾個表的名字，可以在運行`admin:install`之前修改它們
-    | 如果install之後想修改，那麼可以手動在資料庫中修改，然後再修改下面幾項的值
+    */
+    'upload' => [
+
+        // Disk in `config/filesystem.php`.
+        'disk' => 'public',
+
+        // Image and file upload path under the disk above.
+        'directory' => [
+            'image' => 'images',
+            'file'  => 'files',
+        ],
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | dcat-admin database settings
+    |--------------------------------------------------------------------------
     |
-    | 如果你需要在表裡面增加字段，可以自定義模型，然後替換掉下面的模型設置即可，控制器的修改
-    | 也可以通過覆蓋路由的方式、覆蓋掉內置的路由設定
+    | Here are database settings for dcat-admin builtin model & tables.
     |
-     */
+    */
     'database' => [
 
         // Database connection for following tables.
@@ -153,182 +287,82 @@ return [
 
         // User tables and model.
         'users_table' => 'admin_users',
-        'users_model' => Encore\Admin\Auth\Database\Administrator::class,
+        'users_model' => Dcat\Admin\Models\Administrator::class,
 
         // Role table and model.
         'roles_table' => 'admin_roles',
-        'roles_model' => Encore\Admin\Auth\Database\Role::class,
+        'roles_model' => Dcat\Admin\Models\Role::class,
 
         // Permission table and model.
         'permissions_table' => 'admin_permissions',
-        'permissions_model' => Encore\Admin\Auth\Database\Permission::class,
+        'permissions_model' => Dcat\Admin\Models\Permission::class,
 
         // Menu table and model.
         'menu_table' => 'admin_menu',
-        'menu_model' => Encore\Admin\Auth\Database\Menu::class,
+        'menu_model' => Dcat\Admin\Models\Menu::class,
 
         // Pivot table for table above.
-        'operation_log_table' => 'admin_operation_log',
-        'user_permissions_table' => 'admin_user_permissions',
-        'role_users_table' => 'admin_role_users',
+        'role_users_table'       => 'admin_role_users',
         'role_permissions_table' => 'admin_role_permissions',
-        'role_menu_table' => 'admin_role_menu',
+        'role_menu_table'        => 'admin_role_menu',
+        'permission_menu_table'  => 'admin_permission_menu',
+        'settings_table'         => 'admin_settings',
+        'extensions_table'       => 'admin_extensions',
+        'extension_histories_table' => 'admin_extension_histories',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | User operation log setting
-    |--------------------------------------------------------------------------
-    |
-    | 操作日誌記錄的設定
-    |
-     */
-    'operation_log' => [
-
-        // 是否開啟日誌記錄、預設打開
-        'enable' => true,
-
-        /*
-         * 允許記錄請求日誌的HTTP方法
-         */
-        'allowed_methods' => ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH'],
-
-        /*
-         * 不需要被記錄日誌的url路徑
-         */
-        'except' => [
-            'admin/auth/logs*',
-        ],
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Admin map field provider
-    |--------------------------------------------------------------------------
-    |
-    | model-form中map組件所使用的地圖設定，支持三個地圖服務商: "tencent", "google", "yandex".
-    |
-     */
-    'map_provider' => 'google',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Application Skin
-    |--------------------------------------------------------------------------
-    |
-    | 皮膚設置，參考https://adminlte.io/docs/2.4/layout設置
-    |
-    | 支持的設置為:
-    |    "skin-blue", "skin-blue-light", "skin-yellow", "skin-yellow-light",
-    |    "skin-green", "skin-green-light", "skin-purple", "skin-purple-light",
-    |    "skin-red", "skin-red-light", "skin-black", "skin-black-light".
-    |
-     */
-    'skin' => 'skin-blue-light',
 
     /*
     |--------------------------------------------------------------------------
     | Application layout
     |--------------------------------------------------------------------------
     |
-    | 佈局設置，參考https://adminlte.io/docs/2.4/layout
-    |
-    | 支持的設置為: "fixed", "layout-boxed", "layout-top-nav", "sidebar-collapse",
-    | "sidebar-mini".
-    |
-     */
-    'layout' => ['sidebar-mini', 'sidebar-collapse'],
+    | This value is the layout of admin pages.
+    */
+    'layout' => [
+        // default, blue, blue-light, green
+        'color' => 'default',
+
+        // sidebar-separate
+        'body_class' => [],
+
+        'horizontal_menu' => false,
+
+        'sidebar_collapsed' => false,
+
+        // light, primary, dark
+        'sidebar_style' => 'light',
+
+        'dark_mode_switch' => false,
+
+        // bg-primary, bg-info, bg-warning, bg-success, bg-danger, bg-dark
+        'navbar_color' => '',
+    ],
 
     /*
     |--------------------------------------------------------------------------
-    | Login page background image
+    | The exception handler class
     |--------------------------------------------------------------------------
     |
-    | 登錄頁面的背景圖設置
-    |
-     */
-    'login_background_image' => '',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Show version at footer
-    |--------------------------------------------------------------------------
-    |
-    | 是否在頁面的右下角顯示當前laravel-admin的版本
-    |
-     */
-    'show_version' => true,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Show environment at footer
-    |--------------------------------------------------------------------------
-    |
-    | 是否在頁面的右下角顯示當前的環境
-    |
-     */
-    'show_environment' => true,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Menu bind to permission
-    |--------------------------------------------------------------------------
-    |
-    | 選單是否綁定權限
-     */
-    'menu_bind_permission' => true,
+    */
+    'exception_handler' => Dcat\Admin\Exception\Handler::class,
 
     /*
     |--------------------------------------------------------------------------
     | Enable default breadcrumb
     |--------------------------------------------------------------------------
     |
-    | 是否開啟頁面的面包屑導航
-     */
+    | Whether enable default breadcrumb for every page content.
+    */
     'enable_default_breadcrumb' => true,
 
     /*
     |--------------------------------------------------------------------------
-    | Extension Directory
+    | Extension
     |--------------------------------------------------------------------------
-    |
-    | 如果你要運行`php artisan admin:extend`命令來開發擴展，需要設定這一項，來存放你的擴展文件
-     */
-    'extension_dir' => app_path('Admin/Extensions'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Settings for extensions.
-    |--------------------------------------------------------------------------
-    |
-    | 每一個laravel-admin擴展對應的設定，都寫在這下面，擴展可以參考 https://github.com/laravel-admin-extensions
-    |
-     */
-    'extensions' => [
-        'ckeditor' => [
-
-            //Set to false if you want to disable this extension
-            'enable' => true,
-
-            // Editor configuration
-            'config' => [
-                'lang' => 'zh-TW',
-                'height' => 300,
-            ],
-        ],
-        'summernote' => [
-
-            //Set to false if you want to disable this extension
-            'enable' => true,
-
-            // Editor configuration
-            'config' => [
-                'lang' => 'zh-TW',
-                'height' => 500,
-            ],
-        ],
+    */
+    'extension' => [
+        // When you use command `php artisan admin:ext-make` to generate extensions,
+        // the extension files will be generated in this directory.
+        'dir' => base_path('dcat-admin-extensions'),
     ],
-    // 使用`下拉菜单`形式
-    'grid_action_class' => \Encore\Admin\Grid\Displayers\DropdownActions::class,
-
 ];

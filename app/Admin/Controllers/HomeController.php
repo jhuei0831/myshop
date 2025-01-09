@@ -3,10 +3,10 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\Dashboard;
-use Encore\Admin\Layout\Column;
-use Encore\Admin\Layout\Content;
-use Encore\Admin\Layout\Row;
+use Dcat\Admin\Http\Controllers\Dashboard;
+use Dcat\Admin\Layout\Column;
+use Dcat\Admin\Layout\Content;
+use Dcat\Admin\Layout\Row;
 
 class HomeController extends Controller
 {
@@ -19,15 +19,15 @@ class HomeController extends Controller
             ->row(function (Row $row) {
 
                 $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::environment());
+                    $column->append(Dashboard::title());
                 });
 
                 $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::extensions());
+                    $column->append(Dashboard::title());
                 });
 
                 $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::dependencies());
+                    $column->append(Dashboard::title());
                 });
             });
     }

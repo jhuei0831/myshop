@@ -16,28 +16,28 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(15);
+        $products = Product::paginate(12);
         return view('product.index', compact('products'));
     }
     public function table()
     {
-        $products = Product::paginate(15);
+        $products = Product::paginate(12);
         return view('product.table', compact('products'));
     }
     public function search(Request $request)
     {
         $search = $request->get('search');
         $products = Product::where('title', $search)
-                    ->orWhere('price', 'like', '%' . $search . '%')->paginate(15)->appends($request->all());
-        // $products = DB::table('products')->where('title', 'like', '%' . $search . '%')->paginate(15);
+                    ->orWhere('price', 'like', '%' . $search . '%')->paginate(12)->appends($request->all());
+        // $products = DB::table('products')->where('title', 'like', '%' . $search . '%')->paginate(12);
         return view('product.index', compact('products'));
     }
     public function search_table(Request $request)
     {
         $search = $request->get('search');
         $products = Product::where('title', $search)
-                    ->orWhere('price', 'like', '%' . $search . '%')->paginate(15)->appends($request->all());
-        // $products = DB::table('products')->where('title', 'like', '%' . $search . '%')->paginate(15);
+                    ->orWhere('price', 'like', '%' . $search . '%')->paginate(12)->appends($request->all());
+        // $products = DB::table('products')->where('title', 'like', '%' . $search . '%')->paginate(12);
         return view('product.table', compact('products'));
     }
     /**

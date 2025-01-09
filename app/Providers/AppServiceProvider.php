@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use App\Cart;
-use App\Observers\CartObserver;
 use App\Photo;
+use App\Observers\CartObserver;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use View;
 
 class AppServiceProvider extends ServiceProvider
 {
